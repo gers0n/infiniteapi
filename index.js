@@ -2,6 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import graphlHTTP from "express-graphql";
 import schema from "./schema";
+import {MovieList, Actors} from './controllers/MoviesController'
+import bodyParser from "body-parser"
+
 
 const app = express();
 const PORT = 8080;
@@ -18,11 +21,17 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.get("/api", (req, res) => {
   res.json({
     msg: "Welc0me to GraphQL"
   });
 });
+
+console.log(Actors);
+app.get('/api/movies', MovieList)
 
 app.use(
   "/graphql",

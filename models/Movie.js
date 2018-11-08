@@ -1,4 +1,5 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const MovieSchema = new Schema({
   title: {
@@ -21,8 +22,8 @@ const MovieSchema = new Schema({
     type: String,
     required: true
   },
-  actors: [{type:Schema.type.ObjectId, ref: 'Actor'}],
-  Genres: [{type:Schema.type.ObjectId, ref: 'Genre'}],
+  actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
+  Genres: [{type:Schema.Types.ObjectId, ref: '_Genre'}],
   hasOscar: {
     type: String,
     required: false,
@@ -33,7 +34,7 @@ const MovieSchema = new Schema({
     required: false,
     default: false
   },
-  isNew: {
+  _isNew: {
     type: String,
     required: false,
     default: false
@@ -55,15 +56,11 @@ const MovieSchema = new Schema({
     type: String,
     required: false
   },
-  __v: {
-    type: Number,
-    required: false
-  },
   dateUpdated: {
     type: Date,
     required: false
   },
-  dateCreate: {
+  dateCreated: {
     type: Date,
     required: false
   },
@@ -80,8 +77,8 @@ const MovieSchema = new Schema({
     required: false
   },
   mediaContent: {
-    type: Schema.type.ObjectId, 
-    ref: 'Media'
+    type: Schema.Types.ObjectId, 
+    ref: 'MediaContent'
   }
 });
 
