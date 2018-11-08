@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 import graphlHTTP from "express-graphql";
 import schema from "./schema";
 import {MovieList, Actors} from './controllers/MoviesController'
@@ -9,8 +9,17 @@ import bodyParser from "body-parser"
 const app = express();
 const PORT = 8080;
 
+
+
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/gql_db");
+
+Schema.Types.ObjectId.prototype.valueOf = function () {
+  return this.toJSON();
+};
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,9 +29,6 @@ app.use(function(req, res, next) {
   );
   next();
 });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
   res.json({
