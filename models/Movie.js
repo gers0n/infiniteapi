@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+Schema.Types.ObjectId.prototype.valueOf = function () {
+  return this.toJSON();
+};
+
 const MovieSchema = new Schema({
   title: {
     type: String,

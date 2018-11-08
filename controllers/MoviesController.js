@@ -6,7 +6,5 @@ export const MovieList = (req, res) => {
 };
 
 export const Actors = (req, res) => {
-  ActorModel.find({}, (err, docs) => res.json({ error: err, data: {
-    ...docs
-  } }));
+  ActorModel.find({}, (err, docs) => res.json({ error: err, data: JSON.parse(JSON.stringify(docs))}))
 };

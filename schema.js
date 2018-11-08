@@ -9,6 +9,7 @@ type Product {
  }
  type Actor{
     _id: ID!,
+    id: String
     name: String!
 }
 
@@ -23,6 +24,8 @@ type Product {
  type Query {
     allProducts: [Product]
     allActors : [Actor]
+    getActor(_id: String) : Actor
+    getProduct(_id: String) : Product
    }
  type Mutation {
      createProduct(input: ProductInput) : Product
