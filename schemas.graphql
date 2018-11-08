@@ -1,7 +1,3 @@
-import { makeExecutableSchema } from "graphql-tools";
-import { resolvers } from "./resolvers";
-
-const typeDefs = `
 type Product {
   _id: ID!
   title: String!
@@ -31,11 +27,3 @@ type Product {
      createProduct(input: ProductInput) : Product
      createActor(input: ActorInput) : Actor
  }
-`;
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
-
-export default schema;

@@ -1,37 +1,30 @@
-import express from "express";
 import mongoose from "mongoose";
-import graphlHTTP from "express-graphql";
-import schema from "./schema";
-import {MovieList, Actors} from './controllers/MoviesController'
-import cors from 'cors';
+import { GraphQLServer } from "graphql-yoga";
+import {resolvers} from './resolvers';
 
-const app = express();
-const PORT = 8080;
-
+/* Connect Mongoose with MongoDb */
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/gql_db");
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+/* Statics */
+const PORT = 8080;
+const options = {
+  port: PORT,
+  endpoint: '/api',
+  // subscriptions: '/subscriptions',
+  playground: '/playground',
+}
 
-app.use(cors());
-
-app.get("/api", (req, res) => {
-  res.json({
-    msg: "Welc0me to GraphQL"
-  });
+/* Server Setup */
+const server = new GraphQLServer({
+  typeDefs: "./schemas.graphql",
+  resolvers : resolvers
 });
 
-app.get('/api/movies', MovieList)
 
-app.use(
-  "/graphql",
-  graphlHTTP({
-    schema: schema,
-    graphiql: true
-  })
-);
-
-app.listen(PORT, () => {
-  console.log(`Server running at port ${PORT}`);
+/* Running the Server */
+server.start(options, () => {
+  console.log(
+    `😄 Server running at http://localhost:${options.port}${options.endpoint}`
+  );
 });
