@@ -1,29 +1,58 @@
-type Product {
+type Actor {
   _id: ID!
-  title: String!
-  qty: Int
- }
- type Actor{
-    _id: ID!,
-    id: String
-    name: String!
+  id: String
+  name: String!
+}
+type Genre {
+  _id: ID!
+  id: String
+  name: String!
+}
+type Media {
+  _id: ID!
+  id: String
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
+type Movie {
+  _id: ID!
+  id: String
+  title: String
+  year: Int
+  rating: Int
+  coverImage: String
+  fullImage: String
+  mediaContent: Media
+  actors: [Actor]
+  Genres: [Genre]
+  hasOscar: String
+  isPremiere: String
+  released: String
+  rated: Int
+  imdbId: String
+  trailer: String
+  dateUpdated: String
+  dateCreated: String
+  view: Int
+  position: Int
+  mailOrigin: String
+}
+input ActorInput {
+  name: String!
 }
 
- input ProductInput {
-     title: String!
-     qty: Int
- }
- input ActorInput {
-    name: String!
- }
+type Query {
+  allActors: [Actor]
+  allMovies: [Movie]
+  
+  getActor(_id: String): Actor
+}
 
- type Query {
-    allProducts: [Product]
-    allActors : [Actor]
-    getActor(_id: String) : Actor
-    getProduct(_id: String) : Product
-   }
- type Mutation {
-     createProduct(input: ProductInput) : Product
-     createActor(input: ActorInput) : Actor
- }
+type Mutation {
+  createActor(input: ActorInput): Actor
+}

@@ -1,19 +1,13 @@
 import mongoose from "mongoose";
 import { GraphQLServer } from "graphql-yoga";
 import {resolvers} from './resolvers';
+import config from './config';
 
 /* Connect Mongoose with MongoDb */
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/gql_db");
 
 /* Statics */
-const PORT = 8080;
-const options = {
-  port: PORT,
-  endpoint: '/api',
-  // subscriptions: '/subscriptions',
-  playground: '/playground',
-}
 
 /* Server Setup */
 const server = new GraphQLServer({
@@ -23,8 +17,8 @@ const server = new GraphQLServer({
 
 
 /* Running the Server */
-server.start(options, () => {
+server.start(config.options, () => {
   console.log(
-    `😄 Server running at http://localhost:${options.port}${options.endpoint}`
+    `Server running at http://localhost:${config.options.port}${config.options.endpoint}`
   );
 });

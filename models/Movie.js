@@ -27,7 +27,7 @@ const MovieSchema = new Schema({
     required: true
   },
   actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
-  Genres: [{type:Schema.Types.ObjectId, ref: '_Genre'}],
+  genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
   hasOscar: {
     type: String,
     required: false,
@@ -82,7 +82,7 @@ const MovieSchema = new Schema({
   },
   mediaContent: {
     type: Schema.Types.ObjectId, 
-    ref: 'MediaContent'
+    ref: 'Media'
   }
 });
 
