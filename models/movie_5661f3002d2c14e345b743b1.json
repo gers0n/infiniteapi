@@ -1,0 +1,50 @@
+{
+  _id: "5661f3002d2c14e345b743b1",
+  title: "Run All Night",
+  year: 2015,
+  released: "13 Mar 2015",
+  runtime: 114,
+  rated: "R",
+  rating: 6.6,
+  synopsis:
+    "Jimmy Conlon es un ex mafioso unido a las malas artes que practica su grupo y sus jefes. Dejando aparcada su familia su lealtad se pondrá a prueba cuando su propio hijo sea el objetivo de la mafia y tenga que elegir entre sus amigos o su familia de verdad.",
+  imdbId: "tt2199571",
+  covertImage:
+    "https://m.media-amazon.com/images/M/MV5BMTU2ODI3ODEyOV5BMl5BanBnXkFtZTgwMTM3NTQzNDE@._V1_SX300.jpg",
+  fullImage:
+    "http://www.hdwallpapers.in/walls/2015_run_all_night_movie-wide.jpg",
+  trailer: "https://www.youtube.com/watch?v=7uDuFh-nC-c",
+  actors: "Liam Neeson, Ed Harris, Joel Kinnaman, Boyd Holbrook",
+  __v: 5,
+  dateUpdate: "2018-10-13T04:42:13.661Z",
+  userCreate: "mpg",
+  userUpdate: "master",
+  synopsisEng:
+    "Professional Brooklyn hitman Jimmy Conlon is more commonly known as THE GRAVEDIGGER. Jimmy was a mob hit-man, who was best friends with his boss Sean Maguire. But when Jimmy's son, Michael, is marked for death by the mob, Jimmy must go up against Sean to protect Michael at all costs. Together, he and Michael must avoid corrupt cops, contract killers and the mob to survive the night.",
+  categories: [],
+  onlyEnglish: false,
+  monoAudio: false,
+  audioSpa: true,
+  audioEng: true,
+  status: true,
+  content: [
+    {
+      link:
+        "https://storage.googleapis.com/bluerey-145701.appspot.com/bmpro/M/2015/Run-all.NIght.2015.720p-Dual-S.mp4",
+      quality: "HD",
+      _id: "56e78f30a047902560a3ad57",
+      status: true,
+      subtitleEng: false,
+      subtitleSpa: true,
+      audioEng: true,
+      audioSpa: true
+    }
+  ],
+  dateCreate: "2016-03-15T04:27:23.778Z",
+  mailOrigin: "plataformaxuno@gmail.com",
+  view: 711,
+  hasOscar: false,
+  isPremiere: false,
+  genres: ["Acción", "Crimen", "Drama"],
+  position: 0
+}

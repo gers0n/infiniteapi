@@ -10,10 +10,12 @@
   "author": "Fhillip G. Castillo",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-graphql": "^0.6.12",
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.2",
+    "graphql-yoga": "^1.16.7",
     "mongoose": "^5.3.5"
   },
   "devDependencies": {
