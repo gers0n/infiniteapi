@@ -42,17 +42,62 @@ type Movie {
   position: Int
   mailOrigin: String
 }
+
 input ActorInput {
   name: String!
+}
+
+input GenreInput {
+  name: String!
+}
+
+input MediaInput {
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
+
+input MovieInput {
+  title: String
+  year: Int
+  rating: Int
+  coverImage: String
+  fullImage: String
+  mediaContent: MediaInput
+  actors: [ActorInput]
+  Genres: [GenreInput]
+  hasOscar: String
+  isPremiere: String
+  released: String
+  rated: Int
+  imdbId: String
+  trailer: String
+  dateUpdated: String
+  dateCreated: String
+  view: Int
+  position: Int
+  mailOrigin: String
 }
 
 type Query {
   allActors: [Actor]
   allMovies: [Movie]
+  allGenres: [Genre]
+  allMedias: [Media]
   
   getActor(_id: String): Actor
+  getMovie(_id: String): Movie
+  getGenre(_id: String) : Genre
+  getMedia(_id:String): Media
 }
 
 type Mutation {
   createActor(input: ActorInput): Actor
+#   createGenre(input: GenreInput) : Genre
+#   createMedia(input: MediaInput) : Media
+#   createMovie(input: MovieInput) : Movie
 }

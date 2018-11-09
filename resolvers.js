@@ -16,7 +16,14 @@ export const resolvers = {
     },
     async allMovies (){
       return (await Movie.find()).map(IdMapper)
-    }
+    },
+    async allGenres (){
+      return (await Genre.find()).map(IdMapper)
+    },
+    async allMedias (){
+      return (await Media.find()).map(IdMapper)
+    },  
+
   },
   Mutation: {
     async createActor(_, {input} ){
