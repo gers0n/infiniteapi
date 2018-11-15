@@ -1,7 +1,7 @@
 type Actor {
   _id: ID!
   id: String
-  name: String!
+  name: String
 }
 type Genre {
   _id: ID!
@@ -22,14 +22,14 @@ type Media {
 type Movie {
   _id: ID!
   id: String
-  title: String
-  year: Int
+  title: String!
+  year: Int!
   rating: Int
-  coverImage: String
-  fullImage: String
-  mediaContent: Media
-  actors: [Actor]
-  Genres: [Genre]
+  coverImage: String!
+  fullImage: String!
+  mediaContent: String
+  actors: [String]
+  Genres: [String]
   hasOscar: String
   isPremiere: String
   released: String
@@ -44,7 +44,7 @@ type Movie {
 }
 
 input ActorInput {
-  name: String!
+  name: String
 }
 
 input GenreInput {
@@ -62,14 +62,15 @@ input MediaInput {
 }
 
 input MovieInput {
+  id: String
   title: String
   year: Int
   rating: Int
   coverImage: String
   fullImage: String
-  mediaContent: MediaInput
-  actors: [ActorInput]
-  Genres: [GenreInput]
+  mediaContent: String
+  actors: [String]
+  Genres: [String]
   hasOscar: String
   isPremiere: String
   released: String
@@ -84,20 +85,18 @@ input MovieInput {
 }
 
 type Query {
-  allActors: [Actor]
   allMovies: [Movie]
-  allGenres: [Genre]
-  allMedias: [Media]
-  
-  getActor(_id: String): Actor
+
   getMovie(_id: String): Movie
-  getGenre(_id: String) : Genre
-  getMedia(_id:String): Media
 }
 
 type Mutation {
-  createActor(input: ActorInput): Actor
-#   createGenre(input: GenreInput) : Genre
-#   createMedia(input: MediaInput) : Media
-#   createMovie(input: MovieInput) : Movie
+  # createActor(input: ActorInput): Actor
+  # createGenre(input: GenreInput) : Genre
+  # createMedia(input: MediaInput) : Media
+  createMovie(input: MovieInput) : Movie
+  
+  # createShortMovie(input: ShortMovieInput) : ShortMovie
+
+  deleteMovie(input: MovieInput) : Movie
 }
