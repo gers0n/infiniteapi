@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-Schema.Types.ObjectId.prototype.valueOf = function () {
+Schema.Types.ObjectId.prototype.valueOf = function() {
   return this.toJSON();
 };
 
@@ -16,9 +16,17 @@ const MovieSchema = new Schema({
   },
   rating: {
     type: Number,
-    required: true
+    required: false
   },
-  coverImage: {
+  synopsis: {
+    type: String,
+    required: false
+  },
+  synopsisEng: {
+    type: String,
+    required: false
+  },
+  covertImage: {
     type: String,
     required: true
   },
@@ -26,8 +34,17 @@ const MovieSchema = new Schema({
     type: String,
     required: true
   },
-  actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
-  genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
+  actors: [{
+    type: String
+  }],
+  // actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
+  genres: [{
+    type: String
+  }],
+  categories: [{
+    type: String
+  }],
+  // genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
   hasOscar: {
     type: String,
     required: false,
@@ -38,17 +55,12 @@ const MovieSchema = new Schema({
     required: false,
     default: false
   },
-  _isNew: {
-    type: String,
-    required: false,
-    default: false
-  },
-  released:{
+  released: {
     type: Date,
     requried: true
   },
   rated: {
-    type: Number,
+    type: String,
     required: false,
     defualt: false
   },
@@ -81,14 +93,15 @@ const MovieSchema = new Schema({
     required: false
   },
   mediaContent: {
-    type: Schema.Types.ObjectId, 
-    ref: 'Media'
-  }
+    type: String,
+    required: false
+  },
+  // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
 });
 
 const ShortMovieSchema = new Schema({
   title: {
-    type: String,
+    type: String
   },
   year: {
     type: Number
@@ -96,8 +109,7 @@ const ShortMovieSchema = new Schema({
   actors: {
     type: [String]
   }
-
 });
 
-export default mongoose.model('Movie', MovieSchema);
-export const ShortMovieShema = mongoose.model('ShortMovie', ShortMovieSchema);
+export default mongoose.model("Movie", MovieSchema);
+export const ShortMovieShema = mongoose.model("ShortMovie", ShortMovieSchema);

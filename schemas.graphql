@@ -24,16 +24,19 @@ type Movie {
   id: String
   title: String!
   year: Int!
-  rating: Int
-  coverImage: String!
-  fullImage: String!
+  rating: Float
+  synopsis: String
+  synopsisEng: String
+  covertImage: String
+  fullImage: String
   mediaContent: String
   actors: [String]
-  Genres: [String]
-  hasOscar: String
-  isPremiere: String
+  genres: [String]
+  categories: [String]
+  hasOscar: Boolean
+  isPremiere: Boolean
   released: String
-  rated: Int
+  rated: String
   imdbId: String
   trailer: String
   dateUpdated: String
@@ -65,16 +68,19 @@ input MovieInput {
   id: String
   title: String
   year: Int
-  rating: Int
-  coverImage: String
+  rating: Float
+  synopsis: String
+  synopsisEng: String
+  covertImage: String
   fullImage: String
   mediaContent: String
   actors: [String]
-  Genres: [String]
-  hasOscar: String
-  isPremiere: String
+  genres: [String]
+  categories: [String]
+  hasOscar: Boolean
+  isPremiere: Boolean
   released: String
-  rated: Int
+  rated: String
   imdbId: String
   trailer: String
   dateUpdated: String
