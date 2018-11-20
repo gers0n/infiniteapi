@@ -99,17 +99,4 @@ const MovieSchema = new Schema({
   // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
 });
 
-const ShortMovieSchema = new Schema({
-  title: {
-    type: String
-  },
-  year: {
-    type: Number
-  },
-  actors: {
-    type: [String]
-  }
-});
-
 export default mongoose.model("Movie", MovieSchema);
-export const ShortMovieShema = mongoose.model("ShortMovie", ShortMovieSchema);

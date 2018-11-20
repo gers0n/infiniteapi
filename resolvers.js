@@ -19,7 +19,10 @@ export const resolvers = {
     // allActors,
     // getActor,
     async allMovies() {
-      return (await Movie.find()).map(Resolver);
+      return (await Movie.find()).map(Resolver).map(movie => {
+        movie.released = new Date(parseInt(movie.released));
+        return movie;
+      });
     },
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);
