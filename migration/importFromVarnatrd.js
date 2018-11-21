@@ -208,6 +208,7 @@ const mapMovieJsonToMovieModel = movie => {
 };
 const SaveMovies = () => {
   fullMoviesInfo.forEach(m => {
+    // Model.update({_id: id}, obj, {upsert: true, setDefaultsOnInsert: true}, cb);
     MovieModel.create(mapMovieJsonToMovieModel(m));
   });
 };

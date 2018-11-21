@@ -90,9 +90,24 @@ input MovieInput {
   mailOrigin: String
 }
 
-type Query {
-  allMovies: [Movie]
+input MovieOrderByInput {
+  title: Int
+  released: Int
+  rating: Int
+}
+input DateRangeInput {
+  from: String
+  to: String
+}
+input MovieFilterInput {
+  title: String
+  released: DateRangeInput
+  rating: Int
+}
 
+type Query {
+  allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, page: Int, pageSize: Int): [Movie]
+  getLastMovies: [Movie]
   getMovie(_id: String): Movie
 }
 
