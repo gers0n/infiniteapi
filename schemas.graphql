@@ -99,6 +99,11 @@ input DateRangeInput {
   from: String
   to: String
 }
+input RatingFilterInput {
+  gte: Int
+  lt: Int
+  eq: Int
+}
 input MovieFilterInput {
   title: String
   released: DateRangeInput

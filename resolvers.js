@@ -33,7 +33,6 @@ export const resolvers = {
         return movie;
       };
       
-      console.log('args', arguments[1]);
       if(filter) {
         return (
           await Movie
