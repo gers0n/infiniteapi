@@ -15,14 +15,23 @@ const getActor = async (_id) => {
 };
 const emptyFunc = x => x;
 const filterDatesMapper = f => {
-  return {
+  if(f.released) return  {
     ...f,
-    released: {
+    released:  {
       $gte: new Date(f.released.from),
       $lt: new Date(f.released.to)
+    } 
+  };
+  if( f.dateUpdated ) return  {
+    ...f,
+    dateUpdated:  {
+      $gte: new Date(f.dateUpdated.from),
+      $lt: new Date(f.dateUpdated .to)
     }
   }
+  return f
 };
+
 export const resolvers = {
   Query: {
     // allActors,
@@ -87,7 +96,6 @@ export const resolvers = {
     //   return Media.create(input);
     // },
     async createMovie(_, { input }) {
-      // console.log(arguments);
       return Movie.create(input);
     }
   }
