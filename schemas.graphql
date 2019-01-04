@@ -1,29 +1,130 @@
-type Product {
+type Actor {
   _id: ID!
+  id: String
+  name: String
+}
+type Genre {
+  _id: ID!
+  id: String
+  name: String!
+}
+type Media {
+  _id: ID!
+  id: String
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
+type Movie {
+  _id: ID!
+  id: String
   title: String!
-  qty: Int
- }
- type Actor{
-    _id: ID!,
-    id: String
-    name: String!
+  year: Int!
+  rating: Float
+  synopsis: String
+  synopsisEng: String
+  covertImage: String
+  fullImage: String
+  mediaContent: String
+  actors: [String]
+  genres: [String]
+  categories: [String]
+  hasOscar: Boolean
+  isPremiere: Boolean
+  released: String
+  rated: String
+  imdbId: String
+  trailer: String
+  dateUpdated: String
+  dateCreated: String
+  view: Int
+  position: Int
+  mailOrigin: String
 }
 
- input ProductInput {
-     title: String!
-     qty: Int
- }
- input ActorInput {
-    name: String!
- }
+input ActorInput {
+  name: String
+}
 
- type Query {
-    allProducts: [Product]
-    allActors : [Actor]
-    getActor(_id: String) : Actor
-    getProduct(_id: String) : Product
-   }
- type Mutation {
-     createProduct(input: ProductInput) : Product
-     createActor(input: ActorInput) : Actor
- }
+input GenreInput {
+  name: String!
+}
+
+input MediaInput {
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
+
+input MovieInput {
+  id: String
+  title: String
+  year: Int
+  rating: Float
+  synopsis: String
+  synopsisEng: String
+  covertImage: String
+  fullImage: String
+  mediaContent: String
+  actors: [String]
+  genres: [String]
+  categories: [String]
+  hasOscar: Boolean
+  isPremiere: Boolean
+  released: String
+  rated: String
+  imdbId: String
+  trailer: String
+  dateUpdated: String
+  dateCreated: String
+  view: Int
+  position: Int
+  mailOrigin: String
+}
+
+input MovieOrderByInput {
+  title: Int
+  released: Int
+  rating: Int
+  dateUpdated: Int
+}
+input DateRangeInput {
+  from: String
+  to: String
+}
+input RatingFilterInput {
+  gte: Int
+  lt: Int
+  eq: Int
+}
+input MovieFilterInput {
+  title: String
+  released: DateRangeInput
+  rating: Int
+  dateUpdated: DateRangeInput
+}
+
+type Query {
+  allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, page: Int, pageSize: Int): [Movie]
+  getLastMovies: [Movie]
+  getMovie(_id: String): Movie
+}
+
+type Mutation {
+  # createActor(input: ActorInput): Actor
+  # createGenre(input: GenreInput) : Genre
+  # createMedia(input: MediaInput) : Media
+  createMovie(input: MovieInput) : Movie
+  
+  # createShortMovie(input: ShortMovieInput) : ShortMovie
+
+  deleteMovie(input: MovieInput) : Movie
+}
