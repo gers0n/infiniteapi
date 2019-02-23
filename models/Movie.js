@@ -8,11 +8,11 @@ Schema.Types.ObjectId.prototype.valueOf = function() {
 const MovieSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: false
   },
   year: {
     type: Number,
-    required: true
+    required: false
   },
   rating: {
     type: Number,
@@ -28,22 +28,28 @@ const MovieSchema = new Schema({
   },
   covertImage: {
     type: String,
-    required: true
+    required: false
   },
   fullImage: {
     type: String,
-    required: true
+    required: false
   },
-  actors: [{
-    type: String
-  }],
+  actors: [
+    {
+      type: String
+    }
+  ],
   // actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
-  genres: [{
-    type: String
-  }],
-  categories: [{
-    type: String
-  }],
+  genres: [
+    {
+      type: String
+    }
+  ],
+  categories: [
+    {
+      type: String
+    }
+  ],
   // genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
   hasOscar: {
     type: String,
@@ -95,7 +101,7 @@ const MovieSchema = new Schema({
   mediaContent: {
     type: String,
     required: false
-  },
+  }
   // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
 });
 

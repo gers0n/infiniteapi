@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 // const axios = require("axios");
-// const MovieModel = require("../models/Movie");
+const MovieModel = require("../models/Movie");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
@@ -12,115 +12,11 @@ const endpoints = {
 };
 
 // models
-
-// const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 Schema.Types.ObjectId.prototype.valueOf = function() {
   return this.toJSON();
 };
-
-const MovieSchema = new Schema({
-  title: {
-    type: String,
-    required: false
-  },
-  year: {
-    type: Number,
-    required: false
-  },
-  rating: {
-    type: Number,
-    required: false
-  },
-  synopsis: {
-    type: String,
-    required: false
-  },
-  synopsisEng: {
-    type: String,
-    required: false
-  },
-  covertImage: {
-    type: String,
-    required: false
-  },
-  fullImage: {
-    type: String,
-    required: false
-  },
-  actors: [
-    {
-      type: String
-    }
-  ],
-  // actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
-  genres: [
-    {
-      type: String
-    }
-  ],
-  categories: [
-    {
-      type: String
-    }
-  ],
-  // genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
-  hasOscar: {
-    type: String,
-    required: false,
-    default: false
-  },
-  isPremiere: {
-    type: String,
-    required: false,
-    default: false
-  },
-  released: {
-    type: Date,
-    requried: true
-  },
-  rated: {
-    type: String,
-    required: false,
-    defualt: false
-  },
-  imdbId: {
-    type: String,
-    required: false
-  },
-  trailer: {
-    type: String,
-    required: false
-  },
-  dateUpdated: {
-    type: Date,
-    required: false
-  },
-  dateCreated: {
-    type: Date,
-    required: false
-  },
-  view: {
-    type: Number,
-    required: false
-  },
-  position: {
-    type: Number,
-    required: false
-  },
-  mailOrigin: {
-    type: String,
-    required: false
-  },
-  mediaContent: {
-    type: String,
-    required: false
-  }
-  // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
-});
-
-const MovieModel = mongoose.model("Movie", MovieSchema);
 
 // End models
 
@@ -132,12 +28,12 @@ let Data = {
 let MovieIdList = [];
 let fullMoviesInfo = [];
 
-const getMovies = cb => {
+const getMovies = callback => {
   fetch(endpoints.movies)
     .then(res => res.json())
     .then(json => {
       Data.Movies = json;
-      cb();
+      callback();
     })
     .catch(err => console.log("err", err));
 };
@@ -147,29 +43,21 @@ const creationOptions = {
   MULTIPLE: "multiple"
 };
 
-const createOneOrMany = (data, cb) => {
+const createOneOrMany = (data, callback) => {
   console.log("trying to create", data.length);
   MovieModel.insertMany(
     data.map(mapMovieJsonToMovieModel),
     { ordered: false },
-    cb
+    callback
   );
 };
 
 const setMoviesIdList = callback => {
-  // createOneOrMany(Data.Movies, (error, docs) => {
-
-  //   console.log(`Arror ${error}`);
-  // console.log(`Arror amount ${error.length}`);
   Data.Movies.forEach(movie =>
-    // let movie = Data.Movies[0];
     MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
   );
-  // console.log(`Amount of docs saved ${docs ? docs.length : docs}`);
-
   console.log("Getting all the data...", MovieIdList.length);
   callback();
-  // });
 };
 
 const setFullData = cb => {
@@ -210,15 +98,6 @@ const setFullData = cb => {
       }, timeoutTimer); /* end setTimeout */
     }); /* forEach Ends */
   }); /* Collection.find ends */
-
-  // MovieIdList.forEach(id => {
-
-  // });
-  // MovieIdList.forEach(async id => {
-
-  // setTimeout()
-
-  // });
 };
 
 const mapMovieJsonToMovieModel = movie => {
@@ -261,10 +140,11 @@ const SaveMovies = (docs, cb) => {
   // MovieModel.insertMany(fullMoviesInfo,{upsert: true}, (err, res)=>{console.log(err, res); if(cb) cb()});
   docs.forEach(m => {
     // Model.update({_id: id}, obj, {upsert: true, setDefaultsOnInsert: true}, cb);
-    // MovieModel.create(mapMovieJsonToMovieModel(m));
+
     MovieModel.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(m._id) },
       mapMovieJsonToMovieModel(m),
+      {upsert: true, setDefaultsOnInsert: true},
       ()=> {
         console.log(" == Doc updated ", m._id);
       });
@@ -272,13 +152,12 @@ const SaveMovies = (docs, cb) => {
 };
 
 const MigrateMovies = () => {
-  // console.dir( MovieModel.create);
   // getMovies(() => {
-    console.log("list of movies loaded", Data.Movies.length);
-    setMoviesIdList(() => {
-      setFullData(SaveMovies);
-    });
-    console.log("Id list ready");
+  //   console.log("list of movies loaded", Data.Movies.length);
+  //   setMoviesIdList(() => {
+  //     setFullData(SaveMovies);
+  //   });
+  //   console.log("Id list ready");
   // });
 };
 
