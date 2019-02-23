@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/gql_db");
 
 const endpoints = {
-  movies: `http://varnatrd.tech/api/movies`,
+  movies: `http://varnatrd.tech/api/movies/`,
   series: `http://varnatrd.tech/api/series`
 };
 
@@ -24,11 +24,11 @@ Schema.Types.ObjectId.prototype.valueOf = function() {
 const MovieSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: false
   },
   year: {
     type: Number,
-    required: true
+    required: false
   },
   rating: {
     type: Number,
@@ -44,22 +44,28 @@ const MovieSchema = new Schema({
   },
   covertImage: {
     type: String,
-    required: true
+    required: false
   },
   fullImage: {
     type: String,
-    required: true
+    required: false
   },
-  actors: [{
-    type: String
-  }],
+  actors: [
+    {
+      type: String
+    }
+  ],
   // actors: [{type:Schema.Types.ObjectId, ref: 'Actor'}],
-  genres: [{
-    type: String
-  }],
-  categories: [{
-    type: String
-  }],
+  genres: [
+    {
+      type: String
+    }
+  ],
+  categories: [
+    {
+      type: String
+    }
+  ],
   // genres: [{type:Schema.Types.ObjectId, ref: 'Genre'}],
   hasOscar: {
     type: String,
@@ -111,7 +117,7 @@ const MovieSchema = new Schema({
   mediaContent: {
     type: String,
     required: false
-  },
+  }
   // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
 });
 
@@ -136,39 +142,59 @@ const getMovies = cb => {
     })
     .catch(err => console.log("err", err));
 };
-const setMoviesIdList = () => {
-  Data.Movies.forEach(movie =>
-  // let movie = Data.Movies[0];
-    MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
-  );
+
+const creationOptions = {
+  SINGLE: "single",
+  MULTIPLE: "multiple"
 };
 
-const setFullData = (cb) => {
-  MovieIdList.forEach(id => {
-  // let id = MovieIdList[0];
-  fetch(`${endpoints.movies}/${id}`)
-    .then(res => res.json())
-    .catch(err => {
-      console.log("could not get ", id);
-    })
-    .then(text => {
-      // let json = JSON.parse(text);
-      let json = text;
-      if (json !== null && json !== undefined) {
-        // fullMoviesInfo.push(json);
-        MovieModel.create(mapMovieJsonToMovieModel(json));
-      }
-      
-      // if (MovieIdList[MovieIdList.length - 1] === json._id) {
-      //   console.log("finished");
-      //   console.log("importing..")
-      //   cb();
-      // }
-    })
-    .catch(err => {
-      console.log("err", err);
-    });
-  })
+const createOneOrMany = (data, cb) => {
+  console.log("trying to create", data.length);
+  MovieModel.insertMany(data.map(mapMovieJsonToMovieModel), {ordered : false}, cb);
+};
+
+const setMoviesIdList = (callback) => {
+  createOneOrMany(Data.Movies, (error, docs) => {
+    
+    console.log(`Arror ${error}`);
+    // console.log(`Arror amount ${error.length}`);
+    Data.Movies.forEach(movie =>
+      // let movie = Data.Movies[0];
+      MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
+    );
+    console.log(`Amount of docs saved ${docs ? docs.length : docs}`);
+    
+    console.log("Getting all the data...", MovieIdList.length);
+    // callback();
+  });
+};
+
+const setFullData = cb => {
+  MovieIdList.forEach(async id => {
+    // let id = MovieIdList[0];
+    await fetch(`${endpoints.movies}/${id}`)
+      .then(res => res.json())
+      .catch(err => {
+        console.log("could not get the docs with id ", id);
+      })
+      .then(text => {
+        // let json = JSON.parse(text);
+        let json = text;
+        if (json !== null && json !== undefined) {
+          // fullMoviesInfo.push(json);
+          MovieModel.findOneAndUpdate({_id: json._id}, mapMovieJsonToMovieModel(json));
+        }
+
+        // if (MovieIdList[MovieIdList.length - 1] === json._id) {
+        //   console.log("finished");
+        //   console.log("importing..")
+        //   cb();
+        // }
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  });
 };
 
 const mapMovieJsonToMovieModel = movie => {
@@ -196,7 +222,7 @@ const mapMovieJsonToMovieModel = movie => {
     audioSpa: movie.audioSpa,
     audioEng: movie.audioEng,
     status: movie.status,
-    mediaContent: movie.content[0].link || "",
+    mediaContent: movie.content ? movie.content[0].link || "" : "",
     dateCreated: movie.dateCreated,
     mailOrigin: movie.mailOrigin,
     view: movie.view,
@@ -217,11 +243,8 @@ const MigrateMovies = () => {
   // console.dir( MovieModel.create);
   getMovies(() => {
     console.log("list of movies loaded", Data.Movies.length);
-    setMoviesIdList();
+    setMoviesIdList(() => {setFullData(SaveMovies)});
     console.log("Id list ready");
-    console.log("Getting all the data...",MovieIdList.length);
-    setFullData(SaveMovies);
-    
   });
 };
 
