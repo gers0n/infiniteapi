@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./build/index.js --exec babel-node -e js  ",
-    "local": "nodemon ./index.js --exec babel-node -e js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-babel": "babel -d ./build ./index.js -s",
-    "migrate": "nodemon ./migration/index.js --exec babel-node -e js"
+    "migrate": "nodemon ./build/src/migration/index.js --exec babel-node -e js",
+    "build-babel": "babel --source-maps --out-dir ./build ./src",
+    "local-start": "nodemon ./src/index.js --exec babel-node -e js",
+    "local-migrate": "nodemon ./src/migration/index.js --exec babel-node -e js"
   },
   "author": "Fhillip G. Castillo",
   "license": "ISC",

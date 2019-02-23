@@ -1,10 +1,10 @@
 const fetch = require("node-fetch");
-// const axios = require("axios");
+const config = require("../config");
 const MovieModel = require("../models/Movie");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/gql_db");
+mongoose.connect(config.mongo.connectionString);
 
 const endpoints = {
   movies: `http://varnatrd.tech/api/movies`,

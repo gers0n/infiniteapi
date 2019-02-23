@@ -11,7 +11,7 @@ mongoose.connect(config.mongo.connectionString);
 
 /* Server Setup */
 const server = new GraphQLServer({
-  typeDefs: "./schemas.graphql",
+  typeDefs: "./src/schemas.graphql",
   resolvers : resolvers
 });
 
