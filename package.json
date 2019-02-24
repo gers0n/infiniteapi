@@ -22,12 +22,12 @@
     "graphql-tools": "^4.0.2",
     "graphql-yoga": "^1.16.7",
     "mongoose": "^5.3.5",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "nodemon": "^1.18.10"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "nodemon": "^1.18.10"
+    "babel-preset-stage-0": "^6.24.1"
   }
 }
