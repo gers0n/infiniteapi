@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node ./src/index.js",
-    "migrate": "babel-node ./build/src/migration/index.js --exec babel-node -e js",
+    "migrate": "babel-node ./build/src/migration/index.js",
     "build": "babel --source-maps --out-dir ./build ./src",
     "local-start": "nodemon ./src/index.js --exec babel-node -e js",
     "local-migrate": "nodemon ./src/migration/index.js --exec babel-node -e js"
