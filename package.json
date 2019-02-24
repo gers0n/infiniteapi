@@ -4,7 +4,7 @@
   "description": "api for movies and series, for an graphql, mongoose and react training",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./build/index.js --exec babel-node -e js  ",
+    "start": "babel-node ./src/index.js -e js  ",
     "migrate": "nodemon ./build/src/migration/index.js --exec babel-node -e js",
     "build-babel": "babel --source-maps --out-dir ./build ./src",
     "local-start": "nodemon ./src/index.js --exec babel-node -e js",
