@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const config = require("../config");
-const MovieModel = require("../models/Movie");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
@@ -12,12 +11,7 @@ const endpoints = {
 };
 
 // models
-const Schema = mongoose.Schema;
-
-Schema.Types.ObjectId.prototype.valueOf = function() {
-  return this.toJSON();
-};
-
+const MovieModel = require("../models/Movie").MovieModel;
 // End models
 
 let Data = {
@@ -35,7 +29,7 @@ const getMovies = callback => {
       Data.Movies = json;
       callback();
     })
-    .catch(err => console.log("err", err));
+    .catch(err => console.log("error trying to fetch all movies", err));
 };
 
 const creationOptions = {
@@ -53,24 +47,31 @@ const createOneOrMany = (data, callback) => {
 };
 
 const setMoviesIdList = callback => {
-  Data.Movies.forEach(movie =>
-    MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
-  );
-  console.log("Getting all the data...", MovieIdList.length);
-  callback();
+  createOneOrMany(Data.Movies, (error, docs) => {
+    if(docs && docs.length > 0){
+      console.log(`Amount of docs saved ${docs.length}`);
+      docs.forEach(movie =>
+        MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
+      );
+      callback();
+	    return;
+    } 
+    if(error) console.log("Some Error Happend ", error);
+    callback();
+  })
 };
 
 const setFullData = cb => {
-  console.log("Getting all docs with missing content");
+  console.log("fetching all docs with missing content");
+  
   MovieModel.find({ mediaContent: "" }, { _id: 1 }, (err, res) => {
-    if (err !== null) return;
+    if (err !== null) return console.log(err);
     var timeoutTimer = 250;
 
     res.map(v => v._id).forEach(id => {
       timeoutTimer += 10;
 
       setTimeout(() => {
-        console.log("fetching for ", id);
         fetch(`${endpoints.movies}/${id}`)
           .then(res => res.json())
           .catch(err => {
@@ -83,9 +84,7 @@ const setFullData = cb => {
             if (data !== null && data !== undefined) {
               fullMoviesInfo.push(data);
               let lastValue = res[res.length - 1];
-              if (fullMoviesInfo.length%10 === 0 || (lastValue._id && lastValue._id.toString() === data._id.toString())) {
-                console.log(`importing ${fullMoviesInfo.length}`);
-                
+              if (fullMoviesInfo.length%10 === 0 || (lastValue._id && lastValue._id.toString() === data._id.toString())) {               
                 cb(fullMoviesInfo, () => {});
                 fullMoviesInfo = [];
               }
@@ -146,19 +145,19 @@ const SaveMovies = (docs, cb) => {
       mapMovieJsonToMovieModel(m),
       {upsert: true, setDefaultsOnInsert: true},
       ()=> {
-        console.log(" == Doc updated ", m._id);
+        // console.log(" == Doc updated ", m._id);
       });
     });
 };
 
 const MigrateMovies = () => {
-  // getMovies(() => {
-  //   console.log("list of movies loaded", Data.Movies.length);
-  //   setMoviesIdList(() => {
-  //     setFullData(SaveMovies);
-  //   });
-  //   console.log("Id list ready");
-  // });
+  getMovies(() => {
+    console.log("list of movies loaded", Data.Movies.length);
+    setMoviesIdList(() => {
+      // setFullData(SaveMovies);
+    });
+    console.log("Id list ready");
+  });
 };
 
 export default MigrateMovies;

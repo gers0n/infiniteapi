@@ -5,7 +5,7 @@ Schema.Types.ObjectId.prototype.valueOf = function() {
   return this.toJSON();
 };
 
-const MovieSchema = new Schema({
+export const MovieSchema = new Schema({
   title: {
     type: String,
     required: false
@@ -105,4 +105,5 @@ const MovieSchema = new Schema({
   // mediaContent: {type: Schema.Types.ObjectId, ref: "Media"}
 });
 
-export default mongoose.model("Movie", MovieSchema);
+export const MovieModel = mongoose.model("Movie", MovieSchema);
+export default MovieModel;
