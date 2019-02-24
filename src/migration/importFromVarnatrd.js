@@ -154,7 +154,7 @@ const MigrateMovies = () => {
   getMovies(() => {
     console.log("list of movies loaded", Data.Movies.length);
     setMoviesIdList(() => {
-      // setFullData(SaveMovies);
+      setFullData(SaveMovies);
     });
     console.log("Id list ready");
   });
