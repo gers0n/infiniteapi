@@ -14,13 +14,15 @@ let config = {
 switch (process.env.NODE_ENV) {
   case "production":
     config.mongo = {
-        connectionString: process.env.mongoConnectionString || ""
+        connectionString: process.env.mongoConnectionString || "",
+        DBName: "gql_db"
     };
     break;
   case "dev":
   default:
     config.mongo = {
-      connectionString: "mongodb://localhost/gql_db"
+      DBName: "gql_db",
+      connectionString: "mongodb://localhost"
   };
     break;
   }

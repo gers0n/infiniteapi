@@ -5,7 +5,7 @@ import config from './config';
 
 /* Connect Mongoose with MongoDb */
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongo.connectionString);
+mongoose.connect(`${config.mongo.connectionString}/${config.mongo.DBName}`);
 
 /* Statics */
 
