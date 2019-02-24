@@ -19,6 +19,6 @@ const server = new GraphQLServer({
 /* Running the Server */
 server.start(config.options, () => {
   console.log(
-    `Server running at http://localhost:${config.options.port}${config.options.endpoint}`
+    `Server running at ${config.options.port}${config.options.endpoint}`
   );
 });
