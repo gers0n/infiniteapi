@@ -8,11 +8,17 @@ mongoose.Promise = global.Promise;
 mongoose.connect(`${config.mongo.connectionString}/${config.mongo.DBName}`);
 
 /* Statics */
+const logger = res => {
+  console.log(res);
+  return res
+};
 
 /* Server Setup */
 const server = new GraphQLServer({
   typeDefs: "./src/schemas.graphql",
-  resolvers : resolvers
+  resolvers : resolvers,
+  formatError: logger,
+  formatResponse: logger,
 });
 
 
