@@ -19,14 +19,14 @@ const filterDatesMapper = f => {
     ...f,
     released:  {
       $gte: new Date(f.released.from),
-      $lt: new Date(f.released.to)
+      $lte: new Date(f.released.to)
     } 
   };
   if( f.dateUpdated ) return  {
     ...f,
     dateUpdated:  {
       $gte: new Date(f.dateUpdated.from),
-      $lt: new Date(f.dateUpdated .to)
+      $lte: new Date(f.dateUpdated .to)
     }
   }
   return f
@@ -36,7 +36,8 @@ export const resolvers = {
   Query: {
     // allActors,
     // getActor,
-    async allMovies(parent, {filter, orderBy, page=1, pageSize=10}) {
+    async allMovies(parent, {filter, orderBy, page, pageSize}) {
+      console.log("got request");
       const dateMapper = movie => {
         // movie.released = "{1}/{2}/{3}".format(movie.released.getDay(), movie.released.getMonth(), movie.released.getYear);
         return movie;

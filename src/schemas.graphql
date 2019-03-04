@@ -111,7 +111,10 @@ input MovieFilterInput {
   rating: Int
   dateUpdated: DateRangeInput
 }
-
+input Pagination {
+  currentPage: Int!
+  pageSize: Int!
+}
 type Query {
   allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, page: Int, pageSize: Int): [Movie]
   getLastMovies: [Movie]
