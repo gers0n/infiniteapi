@@ -36,8 +36,8 @@ export const resolvers = {
   Query: {
     // allActors,
     // getActor,
-    async allMovies(parent, {filter, orderBy, page, pageSize}) {
-      console.log("got request");
+    async allMovies(parent, {filter, orderBy, limit, skip}) {
+      // console.log("got request", JSON.stringify( arguments));
       const dateMapper = movie => {
         // movie.released = "{1}/{2}/{3}".format(movie.released.getDay(), movie.released.getMonth(), movie.released.getYear);
         return movie;
@@ -48,8 +48,8 @@ export const resolvers = {
           await Movie
             .find(filterDatesMapper(filter))
             .sort(orderBy)
-            .skip(page)
-            .limit(pageSize)
+            .skip(skip)
+            .limit(limit)
           )
           .map(Resolver)
           .map(dateMapper)
@@ -57,8 +57,8 @@ export const resolvers = {
         return (
           await Movie.find()
           .sort(orderBy)
-          .skip(page)
-          .limit(pageSize)
+          .skip(skip)
+          .limit(limit)
           )
           .map(Resolver).map(dateMapper)
       }

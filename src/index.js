@@ -9,7 +9,7 @@ mongoose.connect(`${config.mongo.connectionString}/${config.mongo.DBName}`);
 
 /* Statics */
 const logger = res => {
-  console.log(res);
+  console.log("arguments", arguments);
   return res
 };
 

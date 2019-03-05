@@ -116,7 +116,7 @@ input Pagination {
   pageSize: Int!
 }
 type Query {
-  allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, page: Int, pageSize: Int): [Movie]
+  allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
   getLastMovies: [Movie]
   getMovie(_id: String): Movie
 }
