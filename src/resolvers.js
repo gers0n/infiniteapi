@@ -1,6 +1,6 @@
 import Actor from "./models/Actor";
 import Movie from "./models/Movie";
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const Resolver = docs => {
   docs.id = docs._id.toString();
@@ -10,7 +10,7 @@ const allActors = async () => {
   return (await Actor.find()).map(Resolver);
 };
 const getActor = async _id => {
-  return await Actor.findOne({ id: Schema.Types.ObjectId(_id) });
+  return await Actor.findById(_id);
 };
 const createMovieTextIndex = () => {
   Movie.createIndex(
@@ -63,7 +63,6 @@ export const resolvers = {
     // allActors,
     // getActor,
     async allMovies(parent, { filter, orderBy, limit, skip }) {
-      // console.log("got request", JSON.stringify( arguments));
       const dateMapper = movie => {
         // movie.released = "{1}/{2}/{3}".format(movie.released.getDay(), movie.released.getMonth(), movie.released.getYear);
         return movie;
@@ -98,8 +97,8 @@ export const resolvers = {
         .limit(10)).map(Resolver);
     },
     async getMovie(parent, {_id}) {
-      let movie = await Movie.findOne({id: Schema.Types.ObjectId(_id)});
-      return Resolver(movie);
+      if(!_id) return null;
+      return await Movie.findById(_id);
     }
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);
