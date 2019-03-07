@@ -1,6 +1,5 @@
 import Actor from "./models/Actor";
 import Movie from "./models/Movie";
-import mongoose, { Schema } from "mongoose";
 
 const Resolver = docs => {
   docs.id = docs._id.toString();
@@ -31,7 +30,7 @@ const createMovieTextIndex = () => {
 };
 const emptyFunc = x => x;
 const filterDatesMapper = f => {
-  let mapped = {};
+  let mapped = f;
 
   if (f.released)
     mapped = {
@@ -67,7 +66,7 @@ export const resolvers = {
         // movie.released = "{1}/{2}/{3}".format(movie.released.getDay(), movie.released.getMonth(), movie.released.getYear);
         return movie;
       };
-
+      console.log({ filter, orderBy, limit, skip });
       if (filter) {
         return (await Movie.find(filterDatesMapper(filter))
           .sort(orderBy)
