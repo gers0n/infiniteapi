@@ -106,6 +106,7 @@ input RatingFilterInput {
   eq: Int
 }
 input MovieFilterInput {
+  search: String
   title: String
   released: DateRangeInput
   rating: Int
@@ -116,7 +117,8 @@ input Pagination {
   pageSize: Int!
 }
 type Query {
-  allMovies(search: String, filter: MovieFilterInput, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
+  # searchAll(search: String, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
+  allMovies(filter: MovieFilterInput, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
   getLastMovies: [Movie]
   getMovie(_id: String): Movie
 }
