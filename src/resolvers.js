@@ -96,6 +96,10 @@ export const resolvers = {
       return (await Movie.find(filter)
         .sort({ released: -1 })
         .limit(10)).map(Resolver);
+    },
+    async getMovie(parent, {_id}) {
+      let movie = await Movie.findOne({id: Schema.Types.ObjectId(_id)});
+      return Resolver(movie);
     }
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);
