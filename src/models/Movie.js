@@ -8,11 +8,13 @@ Schema.Types.ObjectId.prototype.valueOf = function() {
 export const MovieSchema = new Schema({
   title: {
     type: String,
-    required: false
+    required: false,
+    index: true
   },
   year: {
     type: Number,
-    required: false
+    required: false,
+    index: true
   },
   rating: {
     type: Number,
@@ -20,11 +22,13 @@ export const MovieSchema = new Schema({
   },
   synopsis: {
     type: String,
-    required: false
+    required: false,
+    index: true
   },
   synopsisEng: {
     type: String,
-    required: false
+    required: false,
+    index: true
   },
   covertImage: {
     type: String,
@@ -88,7 +92,8 @@ export const MovieSchema = new Schema({
   },
   view: {
     type: Number,
-    required: false
+    required: false,
+    index: true
   },
   position: {
     type: Number,

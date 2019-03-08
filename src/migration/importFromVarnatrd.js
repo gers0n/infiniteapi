@@ -48,54 +48,81 @@ const createOneOrMany = (data, callback) => {
 
 const setMoviesIdList = callback => {
   createOneOrMany(Data.Movies, (error, docs) => {
-    if(docs && docs.length > 0){
+    if (docs && docs.length > 0) {
       console.log(`Amount of docs saved ${docs.length}`);
       docs.forEach(movie =>
         MovieIdList.indexOf(movie._id) < 0 ? MovieIdList.push(movie._id) : null
       );
       callback();
-	    return;
-    } 
-    if(error) console.log("Some Error Happend ", error);
+      return;
+    }
+    if (error) console.log("Some Error Happend ", error);
     callback();
-  })
+  });
 };
-
+const createMovieTextIndexes = () => {
+  // MovieModel.dropIndexes();
+  // MovieModel.createIndex(
+  //   {
+  //     title: "text",
+  //     year: "text",
+  //     synopsis: "text",
+  //     synopsisEng: "text"
+  //   },
+  //   {
+  //     weights: {
+  //       title: 10,
+  //       year: 1,
+  //       synopsis: 2,
+  //       synopsisEng: 2
+  //     },
+  //     name: "TextIndexes"
+  //   }
+  // );
+  // MovieModel.createIndex({"title":"text", "year":"text", "synopsis":"text", "synopsisEng":"text"}, {"weights":{"title":3, "year":1, "synopsis":1, "synopsisEng":1}, "name":"TextIndex"})
+  MovieModel.ensureIndexes(err => console.log(err));
+};
 const setFullData = cb => {
   console.log("fetching all docs with missing content");
-  
+
   MovieModel.find({ mediaContent: "" }, { _id: 1 }, (err, res) => {
     if (err !== null) return console.log(err);
     var timeoutTimer = 250;
 
-    res.map(v => v._id).forEach(id => {
-      timeoutTimer += 10;
+    res
+      .map(v => v._id)
+      .forEach(id => {
+        timeoutTimer += 10;
 
-      setTimeout(() => {
-        fetch(`${endpoints.movies}/${id}`)
-          .then(res => res.json())
-          .catch(err => {
-            var index = fullMoviesInfo.indexOf(id);
-            fullMoviesInfo.splice(index, 1);
-            console.log("could not get the docs with id ", id);
-            return;
-          })
-          .then(data => {
-            if (data !== null && data !== undefined) {
-              fullMoviesInfo.push(data);
-              let lastValue = res[res.length - 1];
-              if (fullMoviesInfo.length%10 === 0 || (lastValue._id && lastValue._id.toString() === data._id.toString())) {               
-                cb(fullMoviesInfo, () => {});
-                fullMoviesInfo = [];
+        setTimeout(() => {
+          fetch(`${endpoints.movies}/${id}`)
+            .then(res => res.json())
+            .catch(err => {
+              var index = fullMoviesInfo.indexOf(id);
+              fullMoviesInfo.splice(index, 1);
+              console.log("could not get the docs with id ", id);
+              return;
+            })
+            .then(data => {
+              if (data !== null && data !== undefined) {
+                fullMoviesInfo.push(data);
+                let lastValue = res[res.length - 1];
+                if (
+                  fullMoviesInfo.length % 10 === 0 ||
+                  (lastValue._id &&
+                    lastValue._id.toString() === data._id.toString())
+                ) {
+                  cb(fullMoviesInfo, () => {});
+                  fullMoviesInfo = [];
+                }
               }
-            }
-          })
-          .catch(err => {
-            fullMoviesInfo.splice(index, 1);
-            console.log("err", err);
-          });
-      }, timeoutTimer); /* end setTimeout */
-    }); /* forEach Ends */
+            })
+            .catch(err => {
+              fullMoviesInfo.splice(0, 1);
+              console.log("err", err);
+            });
+        }, timeoutTimer); /* end setTimeout */
+      }); /* forEach Ends */
   }); /* Collection.find ends */
 };
 
@@ -143,18 +170,21 @@ const SaveMovies = (docs, cb) => {
     MovieModel.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(m._id) },
       mapMovieJsonToMovieModel(m),
-      {upsert: true, setDefaultsOnInsert: true},
-      ()=> {
+      { upsert: true, setDefaultsOnInsert: true },
+      () => {
         // console.log(" == Doc updated ", m._id);
-      });
-    });
+      }
+    );
+  });
+
+  if (cb !== undefined) cb();
 };
 
 const MigrateMovies = () => {
   getMovies(() => {
     console.log("list of movies loaded", Data.Movies.length);
     setMoviesIdList(() => {
-      setFullData(SaveMovies);
+      setFullData(docs => SaveMovies(docs, createMovieTextIndexes));
     });
     console.log("Id list ready");
   });

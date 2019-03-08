@@ -30,31 +30,32 @@ const createMovieTextIndex = () => {
 };
 const emptyFunc = x => x;
 const filterDatesMapper = f => {
-  let mapped = f;
-
-  if (f.released)
-    mapped = {
-      ...f,
-      released: {
-        $gte: new Date(f.released.from),
-        $lte: new Date(f.released.to)
-      }
-    };
-  if (f.dateUpdated)
-    mapped = {
+    if (f.released) {
+      f = {
+        ...f,
+        released: {
+          $gte: new Date(f.released.from),
+          $lte: new Date(f.released.to)
+        }
+      };
+    }
+  if (f.dateUpdated) {
+    f = {
       ...f,
       dateUpdated: {
         $gte: new Date(f.dateUpdated.from),
         $lte: new Date(f.dateUpdated.to)
       }
     };
-    if (f.search)
-    mapped = {
+  }
+  if (f.search) {
+    f = {
       ...f,
       $text: { $search: f.search },
       search: null
     };
-  return mapped;
+  }
+  return f;
 };
 
 export const resolvers = {
@@ -62,25 +63,19 @@ export const resolvers = {
     // allActors,
     // getActor,
     async allMovies(parent, { filter, orderBy, limit, skip }) {
-      const dateMapper = movie => {
-        // movie.released = "{1}/{2}/{3}".format(movie.released.getDay(), movie.released.getMonth(), movie.released.getYear);
-        return movie;
-      };
-      console.log({ filter, orderBy, limit, skip });
+      
       if (filter) {
         return (await Movie.find(filterDatesMapper(filter))
           .sort(orderBy)
           .skip(skip)
           .limit(limit))
           .map(Resolver)
-          .map(dateMapper);
       } else {
         return (await Movie.find()
           .sort(orderBy)
           .skip(skip)
           .limit(limit))
           .map(Resolver)
-          .map(dateMapper);
       }
     },
     async getLastMovies() {
@@ -95,8 +90,8 @@ export const resolvers = {
         .sort({ released: -1 })
         .limit(10)).map(Resolver);
     },
-    async getMovie(parent, {_id}) {
-      if(!_id) return null;
+    async getMovie(parent, { _id }) {
+      if (!_id) return null;
       return await Movie.findById(_id);
     }
     // async allGenres() {
