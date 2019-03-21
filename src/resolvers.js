@@ -16,13 +16,15 @@ const createMovieTextIndex = () => {
     {
       title: "text",
       year: "text",
-      synopsis: "text"
+      synopsis: "text",
+      genres: "test"
     },
     {
       weights: {
-        title: 10,
-        year: 3,
-        synopsis: 5
+        title: 5,
+        year: 1,
+        synopsis: 3,
+        genres: 1
       },
       name: "TextIndex"
     }
