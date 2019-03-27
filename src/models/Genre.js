@@ -1,7 +1,11 @@
 import mongoose, {Schema, mongo} from "mongoose";
 
+Schema.Types.ObjectId.prototype.valueOf = function() {
+  return this.toJSON();
+};
+
 const GenreSchema = new Schema({
-  title: {type:String, required:true}
+  name: {type:String, required:true}
 });
 
-export default mongoose.model('_Genre', GenreSchema);
+export default mongoose.model('Genres', GenreSchema);

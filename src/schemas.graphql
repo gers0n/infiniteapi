@@ -96,6 +96,7 @@ input MovieOrderByInput {
   rating: Int
   dateUpdated: Int
   genres: Int
+  view: Int
 }
 input DateRangeInput {
   from: String
@@ -118,11 +119,13 @@ input Pagination {
   currentPage: Int!
   pageSize: Int!
 }
+
 type Query {
   # searchAll(search: String, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
   allMovies(filter: MovieFilterInput, orderBy: MovieOrderByInput, limit: Int, skip: Int): [Movie]
   getLastMovies: [Movie]
   getMovie(_id: String): Movie
+  getAllGenres: [Genre]
 }
 
 type Mutation {

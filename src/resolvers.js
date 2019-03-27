@@ -1,5 +1,6 @@
 import Actor from "./models/Actor";
 import Movie from "./models/Movie";
+import Genre from "./models/Genre";
 
 const Resolver = docs => {
   docs.id = docs._id.toString();
@@ -33,21 +34,21 @@ const createMovieTextIndex = () => {
 const emptyFunc = x => x;
 const filterDatesMapper = f => {
     if (f.released) {
+      var released = {};
+      if(f.released.from) released.$gte = new Date(f.released.from)
+      if(f.released.to) released.$lte = new Date(f.released.to)
       f = {
         ...f,
-        released: {
-          $gte: new Date(f.released.from),
-          $lte: new Date(f.released.to)
-        }
+        released: released
       };
     }
   if (f.dateUpdated) {
+    var dateUpdated = {}
+    if(f.dateUpdated.from) dateUpdated.$gte = new Date(f.dateUpdated.from)
+    if(f.dateUpdated.to) dateUpdated.$lte = new Date(f.dateUpdated.to)
     f = {
       ...f,
-      dateUpdated: {
-        $gte: new Date(f.dateUpdated.from),
-        $lte: new Date(f.dateUpdated.to)
-      }
+      dateUpdated: dateUpdated
     };
   }
   if (f.search) {
@@ -59,7 +60,11 @@ const filterDatesMapper = f => {
   }
   return f;
 };
-
+const genresStringMapper = (genre)=>{
+  return {
+    name: genre
+  }
+};
 export const resolvers = {
   Query: {
     // allActors,
@@ -95,6 +100,9 @@ export const resolvers = {
     async getMovie(parent, { _id }) {
       if (!_id) return null;
       return await Movie.findById(_id);
+    },
+    async getAllGenres (){
+      return await Genre.find({});
     }
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);
@@ -113,6 +121,7 @@ export const resolvers = {
     // async createMedia(_, { input }) {
     //   return Media.create(input);
     // },
+
     async createMovie(_, { input }) {
       return Movie.create(input);
     }
