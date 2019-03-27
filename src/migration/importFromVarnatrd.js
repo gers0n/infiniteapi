@@ -80,7 +80,8 @@ const createMovieTextIndexes = () => {
   //   }
   // );
   // MovieModel.createIndex({"title":"text", "year":"text", "synopsis":"text", "synopsisEng":"text"}, {"weights":{"title":3, "year":1, "synopsis":1, "synopsisEng":1}, "name":"TextIndex"})
-  MovieModel.ensureIndexes(err => console.log(err));
+  MovieModel.createIndexes(err => console.log('index error', err));
+  // MovieModel.ensureIndexes(err => console.log(err));
 };
 const setFullData = cb => {
   console.log("fetching all docs with missing content");
