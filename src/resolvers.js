@@ -72,6 +72,9 @@ export const resolvers = {
     async allMovies(parent, { filter, orderBy, limit, skip }) {
       
       if (filter) {
+        if(filter.genres){
+          filter = {...filter, genres: {$in: filter.genres || []}}
+        }
         return (await Movie.find(filterDatesMapper(filter))
           .sort(orderBy)
           .skip(skip)

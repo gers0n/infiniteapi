@@ -113,7 +113,7 @@ input MovieFilterInput {
   released: DateRangeInput
   rating: Int
   dateUpdated: DateRangeInput
-  genres: String
+  genres: [String]
 }
 input Pagination {
   currentPage: Int!
