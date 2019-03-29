@@ -1,24 +1,8 @@
-type Actor {
-  _id: ID!
-  id: String
-  name: String
-}
-type Genre {
-  _id: ID!
-  id: String
-  name: String!
-}
-type Media {
-  _id: ID!
-  id: String
-  link: String
-  quality: String
-  status: Boolean
-  subtitleEng: Boolean
-  subtitleSpa: Boolean
-  audioEng: Boolean
-  audioSpa: Boolean
-}
+# import Genre, Actor, Media from "./gql/CommonTypes.graphql"
+# import ActorInput, GenreInput, MediaInput from "./gql/CommonInputs.graphql"
+# import TVShow from "./gql/TVShowType.graphql"
+
+
 type Movie {
   _id: ID!
   id: String
@@ -44,24 +28,6 @@ type Movie {
   view: Int
   position: Int
   mailOrigin: String
-}
-
-input ActorInput {
-  name: String
-}
-
-input GenreInput {
-  name: String!
-}
-
-input MediaInput {
-  link: String
-  quality: String
-  status: Boolean
-  subtitleEng: Boolean
-  subtitleSpa: Boolean
-  audioEng: Boolean
-  audioSpa: Boolean
 }
 
 input MovieInput {
@@ -98,10 +64,12 @@ input MovieOrderByInput {
   genres: Int
   view: Int
 }
+
 input DateRangeInput {
   from: String
   to: String
 }
+
 input RatingFilterInput {
   gte: Int
   lt: Int
@@ -126,6 +94,7 @@ type Query {
   getLastMovies: [Movie]
   getMovie(_id: String): Movie
   getAllGenres: [Genre]
+  getAllTvShows: [TVShow]
 }
 
 type Mutation {

@@ -1,6 +1,7 @@
 import Actor from "./models/Actor";
 import Movie from "./models/Movie";
 import Genre from "./models/Genre";
+import TVShow from "./models/TVShow";
 
 const Resolver = docs => {
   docs.id = docs._id.toString();
@@ -106,6 +107,12 @@ export const resolvers = {
     },
     async getAllGenres (){
       return await Genre.find({});
+    },
+    async getAllTvShows (){
+      retrun( await TVShow
+      .find()
+      .skip(0)
+      .limit(16));
     }
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);

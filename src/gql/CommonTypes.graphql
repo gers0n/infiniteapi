@@ -1,0 +1,24 @@
+type Genre {
+  _id: ID!
+  id: String
+  name: String!
+}
+
+type Actor {
+  _id: ID!
+  id: String
+  name: String
+}
+
+type Media {
+  _id: ID!
+  id: String
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
+

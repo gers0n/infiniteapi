@@ -1,0 +1,17 @@
+input ActorInput {
+  name: String
+}
+
+input GenreInput {
+  name: String!
+}
+
+input MediaInput {
+  link: String
+  quality: String
+  status: Boolean
+  subtitleEng: Boolean
+  subtitleSpa: Boolean
+  audioEng: Boolean
+  audioSpa: Boolean
+}
