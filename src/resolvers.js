@@ -109,10 +109,13 @@ export const resolvers = {
       return await Genre.find({});
     },
     async getAllTvShows (){
-      retrun( await TVShow
+      var tvShows =  await TVShow
       .find()
       .skip(0)
-      .limit(16));
+      .limit(16);
+      console.log(JSON.stringify(tvShows[0].episodes[0]));
+
+      return tvShows;
     }
     // async allGenres() {
     //   return (await Genre.find()).map(Resolver);

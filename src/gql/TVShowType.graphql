@@ -1,36 +1,53 @@
 # import Media from "./CommonTypes.graphql"
 
+type Episode {
+  isPremiere: Boolean
+  mailOrigin: String
+  content: [Media]
+  status: Boolean
+  audioSpa: Boolean
+  audioEng: Boolean
+  view: Int
+  monoAudio: Boolean
+  onlyEnglish: Boolean
+  dateUpdated: String
+  userUpdate: String
+  trailer: String
+  fullImage: String
+  season: String
+  episode: Int!
+  covertImage: String
+  rating: Float
+  synopsis: String
+  runtime: String
+  released: String
+  year: Int!
+  title: String!
+  imdbId: String
+}
+
+type EpisodesOfEpisode {
+  episode: Episode
+}
+
 type TVShow {
   _id: ID!
   id: String
   title: String!
   year: Int!
-  released: String
   rating: Float
-  runtime: String
-  rated: String
-  synopsis: String
-  imdbId: String
-  synopsisEng: String
   covertImage: String
   fullImage: String
   trailer: String
   actors: [String]
-  dateUpdated: String
-  userCreate: String
-  userUpdate: String
   categories: [String]
-  onlyEnglish: Boolean
-  monoAudio: Boolean
-  audioSpa: Boolean
-  audioEng: Boolean
-  status: Boolean
-  content: [Media]
+  episodes: [EpisodesOfEpisode]
   dateCreate: String
-  mailOrigin: String
-  view: Int
-  hasOscar: Boolean
-  isPremiere: Boolean
+  lastEpisodeDate: String
+  subTitle: String
   genres: [String]
-  position: Int
+  isNew: Boolean
+  isViewed: Boolean
+  isFavorite: Boolean
+  isRecent: Boolean
 }

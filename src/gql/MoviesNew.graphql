@@ -1,0 +1,35 @@
+# import Media from "./CommonTypes.graphql"
+type TVShow {
+_id: ID!
+  id: String
+  title: String!
+  year: Int!
+    released: String
+  rating: Float
+    runtime: String
+    rated: String
+    synopsis: String
+    imdbId: String
+    synopsisEng: String
+  covertImage: String
+  fullImage: String
+  trailer: String
+  actors: [String]
+    dateUpdated: String
+    userCreate: String
+    userUpdate: String
+  categories: [String]
+    onlyEnglish: Boolean
+    monoAudio: Boolean
+    audioSpa: Boolean
+    audioEng: Boolean
+    status: Boolean
+  content: [Media]
+  dateCreate: String
+  mailOrigin: String
+  view: Int
+  hasOscar: Boolean
+  isPremiere: Boolean
+  genres: [String]
+  position: Int
+}
