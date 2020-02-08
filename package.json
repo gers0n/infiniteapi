@@ -24,7 +24,7 @@
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.2",
     "graphql-yoga": "^1.16.7",
-    "mongoose": "^5.4.20",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.18.10",
     "react-router-dom": "^4.3.1"
   },
